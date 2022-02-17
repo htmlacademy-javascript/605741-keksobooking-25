@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Валерия Полянская](https://up.htmlacademy.ru/javascript/25/user/605741).
-* Наставник: `Неизвестно`.
+* Наставник: [Магомед Кандаев](https://htmlacademy.ru/profile/magomedkandaev).
 
 ---
 
