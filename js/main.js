@@ -1,4 +1,5 @@
 const ADS_COUNT = 10;
+const DIGITS_COUNT = 5;
 const PRICE_MIN = 0;
 const PRICE_MAX = 0;
 const ROOMS_MIN = 0;
@@ -10,7 +11,7 @@ const LATITUDE_MAX = 35.70000;
 const LONGITUDE_MIN = 139.70000;
 const LONGITUDE_MAX = 139.80000;
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const TIME = ['12:00', '13:00', '14:00'];
+const TIMES = ['12:00', '13:00', '14:00'];
 const OPTIONS = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const IMAGES = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
@@ -32,35 +33,31 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   return +result.toFixed(digits);
 }
 
-const getRandomArrayElement = (elements) => {
-  return elements[getRandomPositiveInteger(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+
+const usersIds = Array.from({length: ADS_COUNT}, (v, i) => ++i);
+
+const getUniqueImg = () => {
+  let imgNumber = usersIds.shift();
+  imgNumber = imgNumber < 10 ? imgNumber : `0${imgNumber}`;
+  return `img/avatars/user${imgNumber}.png`;
 };
 
-const usersId = Array.from({length: ADS_COUNT}, (v, i) => ++i);
-
-const getUniqueImgNumber = () => {
-  const imgNumber = usersId.shift();
-  return imgNumber < 10 ? `img/avatars/user0${imgNumber}.png` : `img/avatars/user${imgNumber}.png`;
-};
-
-const AVATARS = [];
+const avatars = [];
 for (let i = 0; i < 10; i++) {
-  const j = getUniqueImgNumber();
-  AVATARS.push(j);
+  const j = getUniqueImg();
+  avatars.push(j);
 }
 
-const getUniqueAvatar = () => {
-  const avatar = AVATARS.shift();
-  return avatar;
-};
+const getUniqueAvatar = () => avatars.shift();
 
 const getRandomLatitude = () => {
-  const latitude = getRandomPositiveFloat(LATITUDE_MIN, LATITUDE_MAX, 5);
+  const latitude = getRandomPositiveFloat(LATITUDE_MIN, LATITUDE_MAX, DIGITS_COUNT);
   return latitude;
 };
 
 const getRandomLongitude = () => {
-  const longitude = getRandomPositiveFloat(LONGITUDE_MIN, LONGITUDE_MAX, 5);
+  const longitude = getRandomPositiveFloat(LONGITUDE_MIN, LONGITUDE_MAX, DIGITS_COUNT);
   return longitude;
 };
 
@@ -86,31 +83,40 @@ const getPhotos = () => {
   return photos;
 };
 
-const createAds = () => {
-  return {
-    author: {
-      avatar: getUniqueAvatar(),
-    },
-    offer: {
-      title: 'Временный заголовок',
-      address: getRandomLatitude() + ', ' + getRandomLongitude(),
-      price: getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
-      type: getRandomArrayElement(TYPES),
-      rooms: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
-      guests: getRandomPositiveInteger(GUESTS_MIN, GUESTS_MAX),
-      checkin: getRandomArrayElement(TIME),
-      checkout: getRandomArrayElement(TIME),
-      features: getFeatures(),
-      description: 'Временное описание',
-      photos: getPhotos(),
-    },
-    location: {
-      lat: getRandomLatitude(),
-      lng: getRandomLongitude(),
-    },
-  };
+const locationOfAd = {};
+
+const getLocation = () => {
+  locationOfAd.lat = getRandomLatitude();
+  locationOfAd.lng = getRandomLongitude();
+  return locationOfAd;
 };
+
+const finalLocation = getLocation();
+
+const getAddress = () => {
+  const addressOfAd = Object.values(finalLocation).join(', ');
+  return addressOfAd;
+};
+
+const createAds = () => ({
+  author: {
+    avatar: getUniqueAvatar(),
+  },
+  offer: {
+    title: 'Временный заголовок',
+    address: getAddress(),
+    price: getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
+    type: getRandomArrayElement(TYPES),
+    rooms: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
+    guests: getRandomPositiveInteger(GUESTS_MIN, GUESTS_MAX),
+    checkin: getRandomArrayElement(TIMES),
+    checkout: getRandomArrayElement(TIMES),
+    features: getFeatures(),
+    description: 'Временное описание',
+    photos: getPhotos(),
+  },
+  location: finalLocation,
+});
 
 const similarAds = Array.from({length: ADS_COUNT}, createAds);
 
-similarAds; //временный вызов
