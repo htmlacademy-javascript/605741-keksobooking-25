@@ -13,21 +13,24 @@ const similarAdsList = document.querySelector('#map-canvas');
 
 const similarAds = createSimilarAds();
 
-const similarListFragment = document.createDocumentFragment();
-
-similarAds.forEach((ad) => {
+const getPopup = (data) => {
   const adsElement = similarAdsTemplate.cloneNode(true);
-  adsElement.querySelector('.popup__title').textContent = ad.offer.title;
-  adsElement.querySelector('.popup__text--address').textContent = ad.offer.address;
-  adsElement.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
-  adsElement.querySelector('.popup__type').textContent = TYPES_RUS[ad.offer.type];
-  adsElement.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
-  adsElement.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
-  adsElement.querySelector('.popup__description').textContent = ad.offer.description;
+  adsElement.querySelector('.popup__title').textContent = data.offer.title;
+  adsElement.querySelector('.popup__text--address').textContent = data.offer.address;
+  adsElement.querySelector('.popup__text--price').textContent = `${data.offer.price} ₽/ночь`;
+  adsElement.querySelector('.popup__type').textContent = TYPES_RUS[data.offer.type];
+  adsElement.querySelector('.popup__text--capacity').textContent = `${data.offer.rooms} комнаты для ${data.offer.guests} гостей`;
+  adsElement.querySelector('.popup__text--time').textContent = `Заезд после ${data.offer.checkin}, выезд до ${data.offer.checkout}`;
+  const descriptionContainer = adsElement.querySelector('.popup__description');
+  descriptionContainer.textContent = data.offer.description;
+
+  if (!data.offer.description) {
+    descriptionContainer.remove();
+  }
 
   const featuresContainer = similarAdsTemplate.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
-  const features = ad.offer.features;
+  const features = data.offer.features;
   features.forEach((feature) => {
     const featuresListItem = featuresContainer.querySelector(`.popup__feature--${feature}`);
     if (featuresListItem) {
@@ -37,37 +40,31 @@ similarAds.forEach((ad) => {
   featuresContainer.innerHTML = '';
   featuresContainer.append(featuresListFragment);
 
-  const photosContainer = similarAdsTemplate.querySelector('.popup__photos');
+  if (!features) {
+    featuresContainer.remove();
+  }
+
+  const photosContainer = adsElement.querySelector('.popup__photos');
   const photosListFragment = document.createDocumentFragment();
-  const photos = ad.offer.photos;
-  photos.forEach((photo) => {
-    const photosListItem = photosContainer.querySelector('.popup__photo');
-    photosListItem.src = photo;
+  const photos = data.offer.photos;
+  for (let i = 0; i < photos.length; i++) {
+    const photosListItem = photosContainer.querySelector('.popup__photo').cloneNode(true);
+    photosListItem.src = photos[i];
     photosListFragment.append(photosListItem);
-  });
+  }
   photosContainer.innerHTML = '';
   photosContainer.append(photosListFragment);
 
-  // вариант 2
-  // for (let i = 0; i < ad.offer.photos.length; i++) {
-  //   const photoTemplate = photos.children[0];
-  //   photoTemplate.src = ad.offer.photos[i];
-  //   photosFragment.append(photoTemplate);
-  // }
-  // photos.innerHTML = '';
-  // photos.append(photosFragment);
+  if (!photos) {
+    photosContainer.remove();
+  }
 
-  // вариант 3
-  // for (let i = 0; i < ad.offer.photos.length; i++) {
-  //   const photoTemplate = photosList.querySelector('.popup__photo');
-  //   photoTemplate.src = ad.offer.photos[i];
-  //   photosFragment.append(photoTemplate);
-  // }
+  const avatar = adsElement.querySelector('.popup__avatar');
+  avatar.src = data.author.avatar;
 
-  adsElement.querySelector('.popup__description').src = ad.author.avatar;
+  similarAdsList.appendChild(adsElement);
+};
 
-  similarListFragment.appendChild(adsElement);
-});
-
-similarAdsList.appendChild(similarListFragment);
-
+for (let i = 0; i < similarAds.length; i++) {
+  getPopup(similarAds[i]);
+}

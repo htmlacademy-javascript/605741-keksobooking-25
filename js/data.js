@@ -25,8 +25,8 @@ const usersIds = Array.from({length: ADS_COUNT}, (v, i) => ++i);
 
 const getUniqueImg = () => {
   let imgNumber = usersIds.shift();
-  imgNumber = imgNumber < 10 ? imgNumber : `0${imgNumber}`;
-  return `img/avatars/user${imgNumber}.png`;
+  return imgNumber < 10 ? `img/avatars/user0${imgNumber}.png` : `img/avatars/user${imgNumber}.png`;
+  //вернула, т.к. предыдущий вариант решения не возращал цифры с 0
 };
 
 const avatars = [];
@@ -50,9 +50,10 @@ const getRandomLongitude = () => {
 const getFeatures = () => {
   const features = [];
   const featuresLength = getRandomPositiveInteger(1, OPTIONS.length);
+  const optionsCopy = OPTIONS.slice(0, OPTIONS.length);
 
   for (let i = 1; i <= featuresLength; i++) {
-    const newFeatures = OPTIONS.shift();
+    const newFeatures = optionsCopy.shift();
     features.push(newFeatures);
   }
   return features;
@@ -61,9 +62,10 @@ const getFeatures = () => {
 const getPhotos = () => {
   const photos = [];
   const photosLength = getRandomPositiveInteger(1, IMAGES.length);
+  const imagesCopy = IMAGES.slice(0, IMAGES.length);
 
   for (let i = 1; i <= photosLength; i++) {
-    const newPhotos = IMAGES.shift();
+    const newPhotos = imagesCopy.shift();
     photos.push(newPhotos);
   }
   return photos;
