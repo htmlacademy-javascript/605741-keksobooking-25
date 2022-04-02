@@ -24,9 +24,8 @@ const IMAGES = [
 const usersIds = Array.from({length: ADS_COUNT}, (v, i) => ++i);
 
 const getUniqueImg = () => {
-  let imgNumber = usersIds.shift();
+  const imgNumber = usersIds.shift();
   return imgNumber < 10 ? `img/avatars/user0${imgNumber}.png` : `img/avatars/user${imgNumber}.png`;
-  //вернула, т.к. предыдущий вариант решения не возращал цифры с 0
 };
 
 const avatars = [];
