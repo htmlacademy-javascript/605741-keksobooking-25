@@ -28,7 +28,7 @@ const getPopup = (data) => {
     descriptionContainer.remove();
   }
 
-  const featuresContainer = similarAdsTemplate.querySelector('.popup__features');
+  const featuresContainer = adsElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
   const features = data.offer.features;
   features.forEach((feature) => {
