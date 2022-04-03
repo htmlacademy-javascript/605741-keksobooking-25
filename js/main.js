@@ -1,3 +1,5 @@
-import {createSimilarAds} from './data.js';
+import './data.js';
+import './popup.js';
 
-createSimilarAds();
+// getPopup(similarAds);
+// {similarAds, getPopup} from
