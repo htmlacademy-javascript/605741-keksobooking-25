@@ -1,5 +1,7 @@
 import './data.js';
 import './popup.js';
 
-// getPopup(similarAds);
-// {similarAds, getPopup} from
+import {deactivatePage, activatePage} from './form.js';
+
+deactivatePage();
+activatePage();
