@@ -50,8 +50,10 @@ pristine.addValidator(roomsField, validateCapacity, getCapacityErrorMessage);
 pristine.addValidator(capacityField, validateCapacity, getCapacityErrorMessage);
 
 adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+  const isValid = pristine.validate();
+  if (!isValid) {
+    evt.preventDefault();
+  }
 });
 
 export {deactivatePage, activatePage};
