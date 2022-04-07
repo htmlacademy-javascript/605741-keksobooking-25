@@ -17,4 +17,44 @@ const activatePage = () => {
   mapFilters.querySelector('fieldset').classList.remove('disabled');
 };
 
+const pristine = new Pristine(adForm, {
+  classTo: 'ad-form__element',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'ad-form__error-text',
+});
+
+const roomsField = adForm.querySelector('[name="rooms"]');
+const capacityField = adForm.querySelector('[name="capacity"]');
+const capacityOption = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
+};
+
+const validateCapacity = () => capacityOption[roomsField.value].includes(capacityField.value);
+
+const getCapacityErrorMessage = () => {
+  if (roomsField.value === '1') {
+    return 'для 1 гостя';
+  } else if (roomsField.value === '2') {
+    return 'для 1 или 2 гостей';
+  } else if (roomsField.value === '3') {
+    return 'для 1-3 гостей';
+  } else if (roomsField.value === '100') {
+    return 'не для гостей';
+  }
+};
+
+pristine.addValidator(roomsField, validateCapacity, getCapacityErrorMessage);
+pristine.addValidator(capacityField, validateCapacity, getCapacityErrorMessage);
+
+adForm.addEventListener('submit', (evt) => {
+  const isValid = pristine.validate();
+  if (!isValid) {
+    evt.preventDefault();
+  }
+});
+
 export {deactivatePage, activatePage};
+
