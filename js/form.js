@@ -21,15 +21,15 @@ const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error-text',
-});
+}, false);
 
 const roomsField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
 const capacityOption = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0'],
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0'],
 };
 
 const validateCapacity = () => capacityOption[roomsField.value].includes(capacityField.value);
@@ -48,6 +48,39 @@ const getCapacityErrorMessage = () => {
 
 pristine.addValidator(roomsField, validateCapacity, getCapacityErrorMessage);
 pristine.addValidator(capacityField, validateCapacity, getCapacityErrorMessage);
+
+const housingType = adForm.querySelector('[name="type"]');
+const priceForNight = adForm.querySelector('[name="price"]');
+const minPriceOption = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
+};
+
+const validatePrice = () => priceForNight.value >= minPriceOption[housingType.value];
+
+housingType.addEventListener('change', () => {
+  priceForNight.placeholder = minPriceOption[housingType.value];
+  priceForNight.min = minPriceOption[housingType.value];
+});
+
+const getPriceErrorMessage = () => `Минимальная цена за ночь ${minPriceOption[housingType.value]} р.`;
+
+pristine.addValidator(housingType, validatePrice);
+pristine.addValidator(priceForNight, validatePrice, getPriceErrorMessage);
+
+const timeIn = adForm.querySelector('[name="timein"]');
+const timeOut = adForm.querySelector('[name="timeout"]');
+const timeField = adForm.querySelector('.ad-form__element--time');
+
+const onSwitchTime = (element) => {
+  timeOut.value = element.target.value;
+  timeIn.value = element.target.value;
+};
+
+timeField.addEventListener('change', (element) => onSwitchTime(element));
 
 adForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
