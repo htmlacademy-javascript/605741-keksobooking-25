@@ -9,7 +9,6 @@ const TYPES_RUS = {
 };
 
 const similarAdsTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAdsList = document.querySelector('#map-canvas');
 
 const similarAds = createSimilarAds();
 
@@ -62,9 +61,11 @@ const getPopup = (data) => {
   const avatar = adsElement.querySelector('.popup__avatar');
   avatar.src = data.author.avatar;
 
-  similarAdsList.appendChild(adsElement);
+  return adsElement;
 };
 
 for (let i = 0; i < similarAds.length; i++) {
   getPopup(similarAds[i]);
 }
+
+export {getPopup, similarAds};

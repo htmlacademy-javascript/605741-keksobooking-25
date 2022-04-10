@@ -89,5 +89,5 @@ adForm.addEventListener('submit', (evt) => {
   }
 });
 
-export {deactivatePage, activatePage};
+export {deactivatePage, activatePage, housingType, priceForNight};
 
