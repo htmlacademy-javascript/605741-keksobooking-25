@@ -1,14 +1,15 @@
-import {activatePage} from './form.js';
-import {getPopup, similarAds} from './popup.js';
+import {deactivatePage, activatePage} from './form.js';
+import {getPopup} from './popup.js';
 
 const COORDINATE_DIGITS = 5;
 
-const resetButton = document.querySelector('.ad-form__reset');
 const centralCoordinates = {
   lat: 35.68617,
   lng: 139.75231,
 };
 const inputAddress = document.querySelector('#address');
+
+deactivatePage();
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -39,16 +40,15 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-inputAddress.value = `${centralCoordinates.lat}, ${centralCoordinates.lng}`;
+const getInitialInputAdressValue = () => {
+  inputAddress.value = `${centralCoordinates.lat}, ${centralCoordinates.lng}`;
+};
+
+getInitialInputAdressValue();
 
 mainPinMarker.on('moveend', (evt) => {
   const currentAddress = evt.target.getLatLng();
   inputAddress.value = `${currentAddress.lat.toFixed(COORDINATE_DIGITS)}, ${currentAddress.lng.toFixed(COORDINATE_DIGITS)}`;
-});
-
-resetButton.addEventListener('click', () => {
-  mainPinMarker.setLatLng(centralCoordinates);
-  map.setView(centralCoordinates, 14);
 });
 
 const icon = L.icon({
@@ -57,13 +57,17 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
+const getResetMap = () => {
+  mainPinMarker.setLatLng(centralCoordinates);
+  map.setView(centralCoordinates, 14);
+  getInitialInputAdressValue();
+};
+
 // eslint-disable-next-line no-unused-vars
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (point) => {
-  const {
-    location: {lat, lng}
-  } = point;
+  const  {lat, lng} = point.location;
   const marker = L.marker(
     {
       lat,
@@ -79,6 +83,10 @@ const createMarker = (point) => {
     .bindPopup(getPopup(point));
 };
 
-similarAds.forEach((point) => {
-  createMarker(point);
-});
+const createData = (element) => {
+  element.forEach((item) => {
+    createMarker(item);
+  });
+};
+
+export {getResetMap, createData};

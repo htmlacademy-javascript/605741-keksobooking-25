@@ -1,5 +1,13 @@
+import {showAlert} from './alert.js';
+import {sendData} from './api.js';
+import {getResetPage} from './reset.js';
+
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
+const submitButton = adForm.querySelector('.ad-form__submit');
+const resetButton = adForm.querySelector('.ad-form__reset');
+
+resetButton.addEventListener('click', () => getResetPage());
 
 const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');
@@ -82,12 +90,39 @@ const onSwitchTime = (element) => {
 
 timeField.addEventListener('change', (element) => onSwitchTime(element));
 
-adForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
 
-export {deactivatePage, activatePage, housingType, priceForNight};
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+          getResetPage();
+        },
+        () => {
+          showAlert();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target)
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit, deactivatePage, activatePage, housingType, priceForNight, adForm, timeIn, timeOut, roomsField, capacityField};
 

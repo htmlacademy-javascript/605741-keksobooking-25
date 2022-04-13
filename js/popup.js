@@ -1,5 +1,3 @@
-import {createSimilarAds} from './data.js';
-
 const TYPES_RUS = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -9,8 +7,6 @@ const TYPES_RUS = {
 };
 
 const similarAdsTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-const similarAds = createSimilarAds();
 
 const getPopup = (data) => {
   const adsElement = similarAdsTemplate.cloneNode(true);
@@ -30,32 +26,32 @@ const getPopup = (data) => {
   const featuresContainer = adsElement.querySelector('.popup__features');
   const featuresListFragment = document.createDocumentFragment();
   const features = data.offer.features;
-  features.forEach((feature) => {
-    const featuresListItem = featuresContainer.querySelector(`.popup__feature--${feature}`);
-    if (featuresListItem) {
-      featuresListFragment.append(featuresListItem);
-    }
-  });
-  featuresContainer.innerHTML = '';
-  featuresContainer.append(featuresListFragment);
-
   if (!features) {
     featuresContainer.remove();
+  } else {
+    features.forEach((feature) => {
+      const featuresListItem = featuresContainer.querySelector(`.popup__feature--${feature}`);
+      if (featuresListItem) {
+        featuresListFragment.append(featuresListItem);
+      }
+    });
+    featuresContainer.innerHTML = '';
+    featuresContainer.append(featuresListFragment);
   }
 
   const photosContainer = adsElement.querySelector('.popup__photos');
   const photosListFragment = document.createDocumentFragment();
   const photos = data.offer.photos;
-  for (let i = 0; i < photos.length; i++) {
-    const photosListItem = photosContainer.querySelector('.popup__photo').cloneNode(true);
-    photosListItem.src = photos[i];
-    photosListFragment.append(photosListItem);
-  }
-  photosContainer.innerHTML = '';
-  photosContainer.append(photosListFragment);
-
   if (!photos) {
     photosContainer.remove();
+  } else {
+    for (let i = 0; i < photos.length; i++) {
+      const photosListItem = photosContainer.querySelector('.popup__photo').cloneNode(true);
+      photosListItem.src = photos[i];
+      photosListFragment.append(photosListItem);
+    }
+    photosContainer.innerHTML = '';
+    photosContainer.append(photosListFragment);
   }
 
   const avatar = adsElement.querySelector('.popup__avatar');
@@ -64,8 +60,4 @@ const getPopup = (data) => {
   return adsElement;
 };
 
-for (let i = 0; i < similarAds.length; i++) {
-  getPopup(similarAds[i]);
-}
-
-export {getPopup, similarAds};
+export {getPopup};
