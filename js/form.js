@@ -7,7 +7,10 @@ const mapFilters = document.querySelector('.map__filters');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
-resetButton.addEventListener('click', () => getResetPage());
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  getResetPage();
+});
 
 const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');

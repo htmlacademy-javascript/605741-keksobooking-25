@@ -1,3 +1,5 @@
+import {showFailMessage} from './alert';
+
 const getData = (onSuccess) => {
   fetch(
     'https://25.javascript.pages.academy/keksobooking/data',
@@ -9,11 +11,14 @@ const getData = (onSuccess) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
+      } else {
+        document.querySelector('.popup__features').disabled = true;
       }
 
       throw new Error ('&{response.status} &{response.statusText}');
     })
-    .then((data) => onSuccess(data));
+    .then((data) => onSuccess(data))
+    .catch((err) => showFailMessage(err));
 };
 
 const sendData = (onSuccess, onFail, body) => {
