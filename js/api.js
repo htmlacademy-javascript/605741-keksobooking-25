@@ -1,4 +1,4 @@
-import {showFailMessage} from './alert';
+import {showFailMessage} from './alert.js';
 
 const getData = (onSuccess) => {
   fetch(
