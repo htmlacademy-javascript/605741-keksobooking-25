@@ -4,6 +4,8 @@ const SHOW_TIME = 3000;
 
 const successMessageContainer = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successMessageContainer.cloneNode(true);
+document.body.append(successMessage);
+successMessage.style.display = 'none';
 
 const onSuccessMessageEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -13,14 +15,14 @@ const onSuccessMessageEscKeydown = (evt) => {
 };
 
 function showSuccessMessage () {
-  document.body.append(successMessage);
+  successMessage.style.display = 'block';
   document.addEventListener('keydown', onSuccessMessageEscKeydown);
   successMessage.addEventListener('click', () => {
     hideSuccessMessage();
   });
 
   setTimeout(() => {
-    successMessage.remove();
+    hideSuccessMessage();
   }, SHOW_TIME);
 }
 

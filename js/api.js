@@ -15,10 +15,10 @@ const getData = (onSuccess) => {
         document.querySelector('.popup__features').disabled = true;
       }
 
-      throw new Error ('&{response.status} &{response.statusText}');
+      throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => onSuccess(data))
-    .catch((err) => showFailMessage(err));
+    .catch(() => showFailMessage('Ошибка загрузки данных'));
 };
 
 const sendData = (onSuccess, onFail, body) => {

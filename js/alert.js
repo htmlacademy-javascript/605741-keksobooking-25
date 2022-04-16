@@ -5,6 +5,8 @@ const ALERT_TIME = 5000;
 const alertContainer = document.querySelector('#error').content.querySelector('.error');
 const alert = alertContainer.cloneNode(true);
 const errorButton = alert.querySelector('.error__button');
+document.body.append(alert);
+alert.style.display = 'none';
 
 const onAlertEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -14,7 +16,7 @@ const onAlertEscKeydown = (evt) => {
 };
 
 function showAlert ()  {
-  document.body.append(alert);
+  alert.style.display = 'block';
   document.addEventListener('keydown', onAlertEscKeydown);
   alert.addEventListener('click', () => {
     hideAlert();
