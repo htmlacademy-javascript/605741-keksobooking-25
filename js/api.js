@@ -18,7 +18,7 @@ const getData = (onSuccess) => {
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => onSuccess(data))
-    .catch(() => showFailMessage('Ошибка загрузки данных'));
+    .catch((err) => showFailMessage(err));
 };
 
 const sendData = (onSuccess, onFail, body) => {
