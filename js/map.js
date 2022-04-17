@@ -1,5 +1,6 @@
 import {deactivatePage, activatePage} from './form.js';
 import {getPopup} from './popup.js';
+import {onFilter} from './filters.js';
 
 const COORDINATE_DIGITS = 5;
 
@@ -63,7 +64,6 @@ const getResetMap = () => {
   getInitialInputAdressValue();
 };
 
-// eslint-disable-next-line no-unused-vars
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (point) => {
@@ -79,14 +79,21 @@ const createMarker = (point) => {
   );
 
   marker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(getPopup(point));
 };
 
+const clearMarker = () => {
+  markerGroup.clearLayers();
+};
+
+const SIMILAR_ADS_COUNT = 10;
+
 const createData = (element) => {
-  element.forEach((item) => {
+  clearMarker();
+  element.filter(onFilter).slice(0, SIMILAR_ADS_COUNT).forEach((item) => {
     createMarker(item);
   });
 };
 
-export {getResetMap, createData};
+export {getResetMap, createData, clearMarker};
