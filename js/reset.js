@@ -1,5 +1,6 @@
 import {adForm, housingType, priceForNight, timeIn, timeOut, roomsField, capacityField} from './form.js';
 import {getResetMap} from './map.js';
+import {Default, typeSelector, priceSelector, roomsSelector, guestsSelector} from './filters.js';
 
 const getFieldsInitialState = () => {
   adForm.querySelector('[name="title"]').value = '';
@@ -12,9 +13,21 @@ const getFieldsInitialState = () => {
   adForm.querySelector('[name="description"]').value = '';
 };
 
+const getResetFilters = () => {
+  typeSelector.value = Default.TYPE;
+  priceSelector.value = Default.TYPE;
+  roomsSelector.value = Default.TYPE;
+  guestsSelector.value = Default.TYPE;
+  document.querySelectorAll('.map__checkbox').forEach((element) => {
+    element.checked = false;
+  });
+};
+
 const getResetPage = () => {
   getFieldsInitialState();
   getResetMap();
+  getResetFilters();
+  document.querySelector('.leaflet-popup').remove();
 };
 
 export {getResetPage};

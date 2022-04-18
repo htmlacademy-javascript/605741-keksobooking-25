@@ -7,9 +7,17 @@ import {setUserFormSubmit} from './form.js';
 import {showSuccessMessage} from './success-message.js';
 import {getData} from './api.js';
 import {createData} from './map.js';
+import {setFilterChanges} from './filters.js';
+import {debounce} from './util.js';
 
-const SIMILAR_ADS_COUNT = 10;
+const RERENDER_DELAY = 500;
 
-getData((ads) => createData(ads.slice(0, SIMILAR_ADS_COUNT)));
+getData((ads) => {
+  createData(ads);
+  setFilterChanges(debounce(
+    () => createData(ads),
+    RERENDER_DELAY,
+  ));
+});
 
 setUserFormSubmit(showSuccessMessage);

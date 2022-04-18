@@ -1,4 +1,5 @@
 import {showFailMessage} from './alert.js';
+import {deactivateFilters, activateFilters} from './form.js';
 
 const getData = (onSuccess) => {
   fetch(
@@ -10,9 +11,10 @@ const getData = (onSuccess) => {
   )
     .then((response) => {
       if (response.ok) {
+        activateFilters();
         return response.json();
       } else {
-        document.querySelector('.popup__features').disabled = true;
+        deactivateFilters();
       }
 
       throw new Error(`${response.status} ${response.statusText}`);

@@ -12,20 +12,33 @@ resetButton.addEventListener('click', (evt) => {
   getResetPage();
 });
 
+const deactivateFilters = () => {
+  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.querySelector('select').classList.add('disabled');
+  mapFilters.querySelector('select').disabled = true;
+  mapFilters.querySelector('fieldset').classList.add('disabled');
+  mapFilters.querySelector('fieldset').disabled = true;
+};
+
+const activateFilters = () => {
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFilters.querySelector('select').classList.remove('disabled');
+  mapFilters.querySelector('select').disabled = false;
+  mapFilters.querySelector('fieldset').classList.remove('disabled');
+  mapFilters.querySelector('fieldset').disabled = false;
+};
+
 const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');
   adForm.querySelector('fieldset').classList.add('disabled');
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilters.querySelector('select').classList.add('disabled');
-  mapFilters.querySelector('fieldset').classList.add('disabled');
+  adForm.querySelector('fieldset').disabled = true;
+  deactivateFilters();
 };
 
 const activatePage = () => {
   adForm.classList.remove('ad-form--disabled');
   adForm.querySelector('fieldset').classList.remove('disabled');
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFilters.querySelector('select').classList.remove('disabled');
-  mapFilters.querySelector('fieldset').classList.remove('disabled');
+  activateFilters();
 };
 
 const pristine = new Pristine(adForm, {
@@ -127,5 +140,5 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {setUserFormSubmit, deactivatePage, activatePage, housingType, priceForNight, adForm, timeIn, timeOut, roomsField, capacityField};
+export {setUserFormSubmit, deactivatePage, activatePage, deactivateFilters, activateFilters, housingType, priceForNight, adForm, timeIn, timeOut, roomsField, capacityField};
 
