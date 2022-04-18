@@ -14,7 +14,10 @@ const RERENDER_DELAY = 500;
 
 getData((ads) => {
   createData(ads);
-  setFilterChanges(() => createData(ads));
+  setFilterChanges(debounce(
+    () => createData(ads),
+    RERENDER_DELAY,
+  ));
 });
 
 setUserFormSubmit(showSuccessMessage);

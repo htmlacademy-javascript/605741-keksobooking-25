@@ -96,4 +96,4 @@ const createData = (element) => {
   });
 };
 
-export {getResetMap, createData, clearMarker};
+export {getResetMap, createData};

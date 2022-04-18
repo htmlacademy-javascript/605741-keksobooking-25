@@ -49,7 +49,10 @@ const onFilter = (data) =>
   featuresFilter(data);
 
 const setFilterChanges = (cb) => {
-  mapFilters.addEventListener('change', () => cb());
+  mapFilters.addEventListener('change', () => {
+    cb();
+    document.querySelector('.leaflet-popup').remove();
+  });
 };
 
-export {onFilter, setFilterChanges, typeFilter};
+export {onFilter, setFilterChanges, typeFilter, Default, typeSelector, priceSelector, roomsSelector, guestsSelector};
