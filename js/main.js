@@ -2,6 +2,7 @@ import './popup.js';
 import './map.js';
 import './slider.js';
 import './reset.js';
+import './avatar-pictures.js';
 
 import {setUserFormSubmit} from './form.js';
 import {showSuccessMessage} from './success-message.js';
