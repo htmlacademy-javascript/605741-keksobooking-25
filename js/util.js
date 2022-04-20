@@ -5,23 +5,23 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function getRandomPositiveFloat (a, b, digits = 1) {
+const getRandomPositiveFloat = (a, b, digits = 1) => {
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
-}
+};
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
 export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, isEscapeKey, debounce};

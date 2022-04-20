@@ -15,7 +15,7 @@ const onAlertEscKeydown = (evt) => {
   }
 };
 
-function showAlert ()  {
+function showAlert () {
   alert.style.display = 'block';
   document.addEventListener('keydown', onAlertEscKeydown);
   alert.addEventListener('click', () => {
@@ -38,11 +38,11 @@ errorButton.addEventListener('click', () => {
 
 const showFailMessage = (message) => {
   const failMessageContainer = document.createElement('div');
-  failMessageContainer.style.zIndex = 100;
+  failMessageContainer.style.zIndex = '100';
   failMessageContainer.style.position = 'absolute';
-  failMessageContainer.style.left = 0;
-  failMessageContainer.style.top = 0;
-  failMessageContainer.style.right = 0;
+  failMessageContainer.style.left = '0';
+  failMessageContainer.style.top = '0';
+  failMessageContainer.style.right = '0';
   failMessageContainer.style.padding = '10px 3px';
   failMessageContainer.style.fontSize = '30px';
   failMessageContainer.style.textAlign = 'center';

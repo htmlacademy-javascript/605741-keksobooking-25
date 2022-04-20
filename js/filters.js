@@ -1,3 +1,5 @@
+import {removeBalloon} from './reset.js';
+
 const Default = {
   TYPE: 'any',
 };
@@ -51,7 +53,7 @@ const onFilter = (data) =>
 const setFilterChanges = (cb) => {
   mapFilters.addEventListener('change', () => {
     cb();
-    document.querySelector('.leaflet-popup').remove();
+    removeBalloon();
   });
 };
 
