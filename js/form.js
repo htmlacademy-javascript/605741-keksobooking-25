@@ -38,6 +38,7 @@ const deactivatePage = () => {
 const activatePage = () => {
   adForm.classList.remove('ad-form--disabled');
   adForm.querySelector('fieldset').classList.remove('disabled');
+  adForm.querySelector('fieldset').disabled = false;
   activateFilters();
 };
 

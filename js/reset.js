@@ -1,6 +1,7 @@
 import {adForm, housingType, priceForNight, timeIn, timeOut, roomsField, capacityField} from './form.js';
 import {getResetMap} from './map.js';
 import {Default, typeSelector, priceSelector, roomsSelector, guestsSelector} from './filters.js';
+import {clearPhotos} from './avatar-pictures.js';
 
 const getFieldsInitialState = () => {
   adForm.querySelector('[name="title"]').value = '';
@@ -23,11 +24,19 @@ const getResetFilters = () => {
   });
 };
 
+const removeBalloon = () => {
+  const openedBalloon = document.querySelector('.leaflet-popup');
+  if (openedBalloon) {
+    openedBalloon.remove();
+  }
+};
+
 const getResetPage = () => {
   getFieldsInitialState();
   getResetMap();
   getResetFilters();
-  document.querySelector('.leaflet-popup').remove();
+  clearPhotos();
+  removeBalloon();
 };
 
-export {getResetPage};
+export {getResetPage, removeBalloon};
